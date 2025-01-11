@@ -1,0 +1,35 @@
+<div class="nav-container">
+  <nav>
+    <div class="nav-section">
+      <ul>
+        @for (item of allNAvListItems; track item) {
+        <li>
+          <a href="#">{{ item }}</a>
+        </li>
+        }
+      </ul>
+    </div>
+
+    <div class="top-ten-and-direct-to-section mt-40">
+      <h3>Top 10 Kategorie</h3>
+      <ul>
+        @for (item of allListItemstopTenCategory; track item) {
+        <li>
+          <a href="#">{{ item }}</a>
+        </li>
+        }
+      </ul>
+    </div>
+
+    <div class="top-ten-and-direct-to-section mt-40">
+      <h3>Direkt zu</h3>
+      <ul>
+        @for (item of alldirektToItems; track item) {
+        <li>
+          <a href="#">{{ item }}</a>
+        </li>
+        }
+      </ul>
+    </div>
+  </nav>
+</div>
