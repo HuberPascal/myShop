@@ -1,1 +1,164 @@
-<p>dashboard works!</p>
+<div class="main-content">
+  <section>
+    <div class="buyItAgainContainer">
+      <h3>Erneut kaufen</h3>
+      <div class="show-all-container">
+        <a href="#">
+          Alle anzeigen
+          <svg
+            class="icon"
+            fill="none"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              d="m10.05 3.5-.707.715 3.743 3.78H1v1.009h12.086l-3.743 3.782.707.714 4.243-4.285.707-.716z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="product-container-wrapper">
+      <button (click)="scroll('left')" class="arrow-left-icon">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button (click)="scroll('right')" class="arrow-right-icon">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+      <section #productScrollContainer class="product-section">
+        @for (product of allProductsBuyAgainSection; track product) {
+
+        <div class="product-item-container">
+          <div class="overlay"></div>
+          <button
+            class="product-item-close-icon"
+            matTooltip="Entfernen"
+            matTooltipPosition="above"
+          >
+            <svg
+              fill="none"
+              viewBox="0 0 16 16"
+              width="16"
+              height="16"
+              class="sc-7dc69bf5-0 juJXRh Icon"
+            >
+              <path
+                fill="#000"
+                fill-rule="evenodd"
+                d="M12.192 3 7.95 7.243 3.708 3 3 3.706 7.243 7.95 3 12.193l.708.707L7.95 8.656l4.242 4.243.707-.705v-.003L8.657 7.95l4.242-4.242z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+          <div class="product-img-container">
+            <img [src]="'/img/products/' + product.imgSrc" alt="product-img" />
+          </div>
+          <div
+            class="linie mit anzahl produkten"
+            style="height: 25px; width: 100%"
+          ></div>
+          <div class="product-title-container">
+            <p>{{ product.category }}</p>
+            <svg
+              class="icon"
+              fill="none"
+              viewBox="0 0 16 16"
+              width="16"
+              height="16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6.893 11.139 3.847 8.092l1.108-1.015 1.938 1.939 4.153-4.154 1.108 1.107zM8 1.999A6 6 0 1 0 8 14.003 6 6 0 0 0 8 2"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+
+          <div class="product-price-container">
+            <span>{{ product.productPrice }}</span>
+            <span>{{ product.basePrice }}</span>
+          </div>
+
+          <div class="product-name-container">
+            <p>
+              <span>{{ product.brand }}</span>
+              <span> {{ product.name }}</span>
+            </p>
+            <p>{{ product.productSpecification }}</p>
+          </div>
+
+          <div class="product-rating-container">
+            <div class="rating">
+              @for (star of [1, 2, 3, 4, 5]; track star) {
+              <!-- Gefüllter Stern -->
+              @if (product.rating >= star) {
+              <span class="full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="black"
+                >
+                  <path
+                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                  />
+                </svg>
+              </span>
+              }
+
+              <!-- Halber Stern -->
+              @else if (product.rating >= star - 0.5 && products[0].rating <
+              star) {
+              <span class="half">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                >
+                  <defs>
+                    <clipPath id="half-star">
+                      <rect x="0" y="0" width="12" height="24" />
+                    </clipPath>
+                  </defs>
+                  <path
+                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    fill="#ddd"
+                  />
+                  <path
+                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    fill="black"
+                    clip-path="url(#half-star)"
+                  />
+                </svg>
+              </span>
+              }
+
+              <!-- Leerer Stern -->
+              @else {
+              <span class="empty">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="#ddd"
+                >
+                  <path
+                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                  />
+                </svg>
+              </span>
+              } }
+            </div>
+            <span class="rating">{{ product.numberOfRating }}</span>
+          </div>
+        </div>
+        }
+      </section>
+    </div>
+  </section>
+</div>
