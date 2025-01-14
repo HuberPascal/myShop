@@ -163,7 +163,7 @@ h3 {
     display: flex;
     justify-content: space-between;
 
-    p {
+    a {
       color: #007bc7;
       font-size: 14px;
     }
@@ -192,12 +192,12 @@ h3 {
     font-size: 18px;
     flex-grow: 1;
 
-    span:nth-child(1) {
-      font-weight: 700;
-    }
-
     p {
       margin: 0;
+    }
+
+    span:nth-child(1) {
+      font-weight: 700;
     }
 
     p:nth-child(2) {

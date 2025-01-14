@@ -1,8 +1,10 @@
 <div>
   <app-header></app-header>
 </div>
-
-<main class="wrapper">
+<div class="content-wrapper">
   <app-nav></app-nav>
-  <router-outlet></router-outlet>
-</main>
+  <main class="wrapper">
+    <router-outlet></router-outlet>
+  </main>
+  <app-sidebar></app-sidebar>
+</div>

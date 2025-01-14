@@ -1,0 +1,127 @@
+.daily-deal-wrapper {
+  width: 400px;
+  height: 557px;
+  .daily-deal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+
+    .daily-deal-header {
+      margin-bottom: 24px;
+      padding-right: 43px;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: #007bc7;
+
+        .icon path {
+          fill: #007bc7;
+          transition: fill 0.3s ease;
+        }
+
+        &:hover {
+          color: #004478;
+
+          .icon path {
+            fill: #004478;
+          }
+        }
+      }
+    }
+
+    .product-title-image-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px;
+      box-sizing: border-box;
+      overflow: hidden;
+      flex: 1;
+
+      img {
+        max-width: 100%;
+        width: 208px;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .product-title-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .product-information-container {
+        width: 100%;
+
+        .remaining-container {
+          font-size: 12px;
+          margin-bottom: 8px;
+          // flex-grow: 1;
+
+          p {
+            margin: 0;
+          }
+
+          span:nth-child(1) {
+            font-weight: 700;
+          }
+
+          p:nth-child(2) {
+            font-size: 14px;
+            margin-top: 3px;
+            color: #0009;
+          }
+        }
+
+        .product-link-container {
+          margin-bottom: 4px;
+          cursor: pointer;
+
+          a {
+            text-decoration: none;
+            color: #007bc7;
+            font-size: 14px;
+            width: 100%;
+          }
+        }
+
+        .product-title-price-container {
+          font-size: 18px;
+          margin-bottom: 4px;
+
+          span:nth-child(1) {
+            font-weight: 700;
+          }
+
+          span:nth-child(2) {
+            font-size: 14px;
+          }
+        }
+
+        .product-name-container {
+          font-size: 18px;
+
+          p {
+            margin: 0;
+          }
+
+          p:nth-child(2) {
+            font-size: 14px;
+            color: #0009;
+          }
+
+          span:nth-child(1) {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}
