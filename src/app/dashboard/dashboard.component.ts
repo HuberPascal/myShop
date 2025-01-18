@@ -4,10 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ProductCarouselComponent } from '../product-carousel/product-carousel.component';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, ProductCarouselComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+    selector: 'app-dashboard',
+    imports: [CommonModule, ProductCarouselComponent],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {}

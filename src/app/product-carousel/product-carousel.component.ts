@@ -16,11 +16,10 @@ interface products {
 }
 
 @Component({
-  selector: 'app-product-carousel',
-  standalone: true,
-  imports: [MatIconModule, MatTooltipModule],
-  templateUrl: './product-carousel.component.html',
-  styleUrl: './product-carousel.component.scss',
+    selector: 'app-product-carousel',
+    imports: [MatIconModule, MatTooltipModule],
+    templateUrl: './product-carousel.component.html',
+    styleUrl: './product-carousel.component.scss'
 })
 export class ProductCarouselComponent {
   @ViewChild('productScrollContainer', { static: false })
