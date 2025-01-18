@@ -1,11 +1,52 @@
 .daily-deal-wrapper {
   width: 400px;
   height: 557px;
+
   .daily-deal-container {
     display: flex;
     flex-direction: column;
     gap: 16px;
     height: 100%;
+    position: relative;
+    padding: 16px 24px;
+    cursor: pointer;
+
+    &:hover {
+      .overlay {
+        opacity: 1;
+      }
+    }
+
+    .overlay {
+      background-color: #00000005;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      opacity: 0;
+    }
+
+    .date-container {
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px 5px 10px 5px;
+      border: 1px solid #ddd;
+      border-radius: 2px;
+
+      span:nth-child(1) {
+        font-size: 12px;
+      }
+
+      span:nth-child(2) {
+        font-size: 22px;
+        font-weight: 700;
+      }
+    }
 
     .daily-deal-header {
       margin-bottom: 24px;
