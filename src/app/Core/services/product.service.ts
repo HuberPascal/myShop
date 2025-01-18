@@ -1,38 +1,16 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { Injectable } from '@angular/core';
+import { Product } from '../../features/store/product.model';
+import { Observable, of } from 'rxjs';
 
-interface products {
-  id: number;
-  category: string;
-  brand: string;
-  name: string;
-  productPrice: number;
-  basePrice?: string;
-  productSpecification: string;
-  numberOfRating: number;
-  imgSrc: string;
-  rating: number;
-}
-
-@Component({
-    selector: 'app-product-carousel',
-    imports: [MatIconModule, MatTooltipModule],
-    templateUrl: './product-carousel.component.html',
-    styleUrl: './product-carousel.component.scss'
+@Injectable({
+  providedIn: 'root',
 })
-export class ProductCarouselComponent {
-  @ViewChild('productScrollContainer', { static: false })
-  scrollContainer!: ElementRef;
-  private scrollAmount = 1000;
+export class ProductService {
+  getAll(): Observable<Product[]> {
+    return of(this.allProductsBuyAgainSection);
+  }
 
-  products = [
-    { id: 1, name: 'Produkt A', rating: 2.5 },
-    { id: 2, name: 'Produkt B', rating: 1.5 },
-    { id: 3, name: 'Produkt C', rating: 4.5 },
-  ];
-
-  allProductsBuyAgainSection: products[] = [
+  allProductsBuyAgainSection: Product[] = [
     {
       id: 0,
       category: 'Haarmaske',
@@ -136,17 +114,24 @@ export class ProductCarouselComponent {
       rating: 4.5,
     },
   ];
+  constructor() {}
 
-  scroll(direction: 'left' | 'right'): void {
-    const container = this.scrollContainer.nativeElement as HTMLElement;
-    const scrollOptions: ScrollToOptions = {
-      behavior: 'smooth',
-      left:
-        direction === 'left'
-          ? container.scrollLeft - this.scrollAmount
-          : container.scrollLeft + this.scrollAmount,
-    };
+  // Methode zum Abrufen aller Produkte
+  getProducts(): Product[] {
+    return this.allProductsBuyAgainSection;
+  }
 
-    container.scrollTo(scrollOptions);
+  // Methode zum Abrufen eines Produkts nach ID
+  // getProductById(id: number): Product | undefined {
+  //   return this.products.find((product) => product.id === id);
+  // }
+
+  loadInitialProducts(): Observable<Product[]> {
+    return of(this.allProductsBuyAgainSection);
   }
 }
+
+// oadInitialProducts(): Observable<Product[]> {
+//   // Stelle sicher, dass diese Methode ein Observable zurückgibt
+//   return this.http.get<Product[]>('https://api.example.com/products');
+// }

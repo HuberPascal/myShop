@@ -27,8 +27,7 @@
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
     <section #productScrollContainer class="product-section">
-      @for (product of allProductsBuyAgainSection; track product) {
-
+      @for (product of products$ | async; track product) {
       <div class="product-item-container">
         <div class="overlay"></div>
         <button
@@ -109,8 +108,8 @@
             }
 
             <!-- Halber Stern -->
-            @else if (product.rating >= star - 0.5 && products[0].rating < star)
-            {
+            @else if (product.rating >= star - 0.5 && productsRating[0].rating <
+            star) {
             <span class="half">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
