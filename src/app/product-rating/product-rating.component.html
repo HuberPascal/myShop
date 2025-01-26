@@ -1,0 +1,67 @@
+<div class="product-rating-container">
+  <div class="rating">
+    @for (star of [1, 2, 3, 4, 5]; track star) {
+    <!-- Gefüllter Stern -->
+    @if ((productRating ?? 0) >= star) {
+    <span class="full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        fill="black"
+      >
+        <path
+          d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+        />
+      </svg>
+    </span>
+    }
+
+    <!-- Halber Stern -->
+    @else if ((productRating ?? 0) >= star - 0.5 && (productRating ?? 0) < star)
+    {
+    <span class="half">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+      >
+        <defs>
+          <clipPath id="half-star">
+            <rect x="0" y="0" width="12" height="24" />
+          </clipPath>
+        </defs>
+        <path
+          d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+          fill="#ddd"
+        />
+        <path
+          d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+          fill="black"
+          clip-path="url(#half-star)"
+        />
+      </svg>
+    </span>
+    }
+
+    <!-- Leerer Stern -->
+    @else {
+    <span class="empty">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        fill="#ddd"
+      >
+        <path
+          d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+        />
+      </svg>
+    </span>
+    } }
+  </div>
+  <!-- <span class="rating">{{ product.numberOfRating }}</span> -->
+</div>

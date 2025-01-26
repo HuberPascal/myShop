@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideStore({ data: productReducer }),
     provideEffects(ProductEffects),
-    provideStoreDevtools(),
+    provideStoreDevtools(), provideAnimationsAsync(),
   ],
 };

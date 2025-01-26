@@ -2,9 +2,11 @@
   <app-header></app-header>
 </div>
 <div class="content-wrapper">
-  <app-nav></app-nav>
-  <main class="wrapper">
+  <div class="nav-container">
+    <app-nav></app-nav>
+  </div>
+
+  <div class="wrapper">
     <router-outlet></router-outlet>
-  </main>
-  <app-sidebar></app-sidebar>
+  </div>
 </div>

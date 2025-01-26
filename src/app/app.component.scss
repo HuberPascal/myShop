@@ -4,9 +4,25 @@
   padding: 32px 24px 0;
   max-width: 1920px;
   display: flex;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  // width: calc(100% - 272px);
+  width: 100%;
+  height: 100%;
+  padding: 32px 32px 0;
+}
+
+.nav-container {
+  width: 272px;
 }
 
 // .wrapper {
-//   display: flex;
-//   width: 1920px;
+//   width: calc(100% - 272px);
+//   height: 100%;
+//   margin: 92px auto 0;
+//   padding: 32px 32px 0;
+//   box-sizing: border-box;
 // }
