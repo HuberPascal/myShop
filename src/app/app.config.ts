@@ -8,6 +8,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ProductEffects } from './features/store/products.effect';
 import { productReducer } from './features/store/product.reducer';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideStore({ data: productReducer }),
     provideEffects(ProductEffects),
     provideStoreDevtools(), provideAnimationsAsync(),
+    provideHttpClient(),
   ],
 };

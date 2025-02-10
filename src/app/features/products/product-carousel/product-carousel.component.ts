@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,26 +21,12 @@ import { RouterLink } from '@angular/router';
   templateUrl: './product-carousel.component.html',
   styleUrl: './product-carousel.component.scss',
 })
-export class ProductCarouselComponent implements OnInit {
+export class ProductCarouselComponent {
+  @Input() products$!: Observable<Product[]>;
   @ViewChild('productScrollContainer', { static: false })
   scrollContainer!: ElementRef;
   private scrollAmount = 1000;
 
-  products$: Observable<Product[]> | undefined;
-
-  constructor(private store: Store<{ data: { products: Product[] } }>) {
-    this.products$ = store.select((state) => state.data.products);
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(loadProducts());
-  }
-
-  // productsRating = [
-  //   { id: 1, name: 'Produkt A', rating: 2.5 },
-  //   { id: 2, name: 'Produkt B', rating: 1.5 },
-  //   { id: 3, name: 'Produkt C', rating: 4.5 },
-  // ];
 
   scroll(direction: 'left' | 'right'): void {
     const container = this.scrollContainer.nativeElement as HTMLElement;

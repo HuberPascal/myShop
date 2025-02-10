@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ProductService } from '../../Core/services/product.service';
+import { ProductService } from '../../Core/services/product.service'; // Statische Produkte
+import { ApiService } from '../../Core/services/api.service';
+import * as ProductActions from './product.actions';
 import {
   loadProducts,
   loadProductsSuccess,
@@ -15,9 +17,9 @@ export class ProductEffects {
     this.actions$.pipe(
       ofType(loadProducts),
       mergeMap(() =>
-        this.productService.loadInitialProducts().pipe(
-          map((products) => loadProductsSuccess({ products })),
-          catchError((error) => of(loadProductsFailure({ error })))
+        this.apiService.productAll().pipe(
+          map((products) => ProductActions.loadProductsSuccess({ products })),
+          catchError((error) => of(loadProductsFailure({ error: error.message })))
         )
       )
     )
@@ -25,6 +27,7 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private productService: ProductService
+    private productService: ProductService,
+    private apiService: ApiService
   ) {}
 }

@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 import { ProductCarouselComponent } from '../products/product-carousel/product-carousel.component';
+import { filter, map, Observable } from 'rxjs';
+import { Product } from '../store/product.model';
+import { Store } from '@ngrx/store';
+import { loadProducts } from '../store/product.actions';
+import { selectProducts } from '../store/product.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,4 +15,11 @@ import { ProductCarouselComponent } from '../products/product-carousel/product-c
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+  products$: Observable<Product[]>;
+
+  constructor(private store: Store<{ products: Product[]}>) {
+
+    this.products$ = this.store.select(selectProducts);
+  }
+}
