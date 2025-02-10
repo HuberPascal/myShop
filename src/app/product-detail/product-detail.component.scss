@@ -183,7 +183,7 @@
     button {
       padding: 9px 15px;
       border-radius: 3px;
-      background-color: #0003;
+      background-color: #eee;
       color: #000;
       font-size: 14px;
       display: flex;
@@ -192,7 +192,8 @@
       border: 1px solid #0003;
 
       &:hover {
-        background-color: #eee;
+        color: #000;
+        background-color: #ddd;
       }
     }
   }

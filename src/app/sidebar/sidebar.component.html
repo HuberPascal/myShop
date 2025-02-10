@@ -1,4 +1,5 @@
-<section class="daily-deal-wrapper">
+@if (product$ |async; as product) {
+<section class="daily-deal-wrapper" [routerLink]="['/product', product.id]">
   <div class="daily-deal-container">
     <div class="overlay"></div>
     <div class="daily-deal-header">
@@ -26,7 +27,7 @@
       </div>
     </div>
     <div class="product-title-image-container">
-      <img src="/img/products/oi_haar_butter.avif" alt="" />
+      <img [src]="'/img/products/' + product.imgSrc" alt="product-img" />
     </div>
     <div class="product-title-wrapper">
       <div class="product-information-container">
@@ -38,21 +39,22 @@
           <div class="remaining-bar-container"></div>
         </div>
         <div class="product-link-container">
-          <a href="#">Arbeitsleuchte</a>
+          <a href="#">{{ product.category}}</a>
         </div>
 
         <div class="product-title-price-container">
           <span>309.-</span>
-          <span> statt 374.-</span>
+          <span> statt {{ product.productPrice}}.-</span>
         </div>
         <div class="product-name-container">
           <p>
-            <span>boblechairs</span>
-            <span> Epic</span>
+            <span>{{product.brand}}</span>
+            <span> {{product.name}}</span>
           </p>
-          <p>60 ml</p>
+          <p>{{product.productSpecification}}</p>
         </div>
       </div>
     </div>
   </div>
 </section>
+}
