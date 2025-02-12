@@ -4,6 +4,7 @@ import { compose } from '@ngrx/store';
 import { Component } from '@angular/core';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { AdminComponent } from './features/admin/admin.component';
+import { AdminAddProductComponent } from './features/admin-add-product/admin-add-product.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminComponent
-  }
+    component: AdminComponent,
+    children: [
+      { path: 'addProduct', component: AdminAddProductComponent }
+    ]
+  },
+
 ];

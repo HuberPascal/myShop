@@ -4,11 +4,10 @@ import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
 import { Store } from '@ngrx/store';
 import { loadProducts } from './features/store/product.actions';
-import { AdminComponent } from './features/admin/admin.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, NavComponent, AdminComponent],
+  imports: [RouterOutlet, HeaderComponent, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
