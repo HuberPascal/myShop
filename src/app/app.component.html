@@ -2,11 +2,15 @@
   <app-header></app-header>
 </div>
 <div class="content-wrapper">
-  <div class="nav-container">
-    <app-nav></app-nav>
-  </div>
-
-  <div class="wrapper">
-    <router-outlet></router-outlet>
-  </div>
+  @if(isAdminPage) {
+    <app-admin></app-admin>
+  } @else {
+    <div class="nav-container">
+      <app-nav></app-nav>
+    </div>
+  
+    <div class="wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  }
 </div>
