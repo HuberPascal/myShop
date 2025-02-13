@@ -7,8 +7,12 @@ import {
   loadProducts,
   loadProductsSuccess,
   loadProductsFailure,
+  addProduct,
+  addProductSuccess,
+  addProductFailure,
+  
 } from './product.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -24,6 +28,18 @@ export class ProductEffects {
       )
     )
   );
+
+  addProduct$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(addProduct),
+    mergeMap((action) =>
+      this.apiService.productPOST(action.product).pipe(
+        tap((product) => console.log("Produkt hinzufügen", product)),
+        map((product) =>ProductActions.addProductSuccess({ product })),
+        catchError((error) => of(addProductFailure({ error: error.message })))
+      )
+    )
+  ))
 
   constructor(
     private actions$: Actions,

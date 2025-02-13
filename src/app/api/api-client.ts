@@ -20,7 +20,7 @@ export interface IApiClient {
      * @param body (optional) 
      * @return OK
      */
-    productPOST(body: Product | undefined): Observable<void>;
+    productPOST(body: Product | undefined): Observable<Product>;
     /**
      * @return OK
      */
@@ -55,7 +55,7 @@ export class ApiClient implements IApiClient {
      * @param body (optional) 
      * @return OK
      */
-    productPOST(body: Product | undefined): Observable<void> {
+    productPOST(body: Product | undefined): Observable<Product> {
         let url_ = this.baseUrl + "/api/Product";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -67,6 +67,7 @@ export class ApiClient implements IApiClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
@@ -77,14 +78,14 @@ export class ApiClient implements IApiClient {
                 try {
                     return this.processProductPOST(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Product>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Product>;
         }));
     }
 
-    protected processProductPOST(response: HttpResponseBase): Observable<void> {
+    protected processProductPOST(response: HttpResponseBase): Observable<Product> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -93,7 +94,10 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Product.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {

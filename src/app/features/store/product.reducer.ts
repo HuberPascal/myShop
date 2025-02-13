@@ -4,8 +4,20 @@ import { createReducer, on } from '@ngrx/store';
 import * as ProductActions from './product.actions';
 // Importiere die Actions, die der Reducer verarbeiten soll.
 
+import { EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity'
+
 import { Product } from './product.model';
 // Importiere das Product-Modell, das die Struktur eines Produkts definiert.
+
+export interface State extends EntityState<Product> {
+  selectedUserId: string | null;
+}
+
+export const adapter: EntityAdapter<Product> = createEntityAdapter<Product>();
+
+// export const initialState: State = adapter.getInitialState({
+//   selectedUserId: null
+// })
 
 export interface ProductState {
   products: Product[]; // Ein Array von Produkten, das den Zustand der Produktliste darstellt.

@@ -1,1 +1,46 @@
-<p>admin-add-product works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="d-flex flex-column mt-5">
+    <mat-form-field>
+        <mat-label>Kategorie</mat-label>
+        <input matInput type="text" formControlName="category">
+        @if (form.controls['rating'].hasError('required')) {
+            <mat-error>
+                Kategorie ist erforderlich!
+            </mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Marke</mat-label>
+        <input matInput type="text" formControlName="brand">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Produkt Name</mat-label>
+        <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Preis</mat-label>
+        <input matInput type="number" min="0" formControlName="productPrice">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Basis Preis</mat-label>
+        <input matInput type="text" min="0" formControlName="basePrice">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Produkt spezifikation</mat-label>
+        <input matInput type="text" formControlName="productSpecification">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Anzahl Bewertungen</mat-label>
+        <input matInput type="number" min="0" formControlName="numberOfRating">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Bild Quelle</mat-label>
+        <input matInput type="text" formControlName="imgSrc">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Bewertung (1-5)</mat-label>
+        <input matInput type="number" min="0" max="5" formControlName="rating">
+    </mat-form-field>
+    
+
+    <button mat-flat-button type="submit" [disabled]="!form.valid">hinzufügen</button>
+</form>

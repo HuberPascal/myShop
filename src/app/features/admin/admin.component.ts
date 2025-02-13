@@ -11,4 +11,7 @@ import { RouterModule } from '@angular/router';
 })
 export class AdminComponent {
 
+  onProductAdded(product: any) {
+    console.log("Produkt erhalten im Parent:", product);
+  }
 }
