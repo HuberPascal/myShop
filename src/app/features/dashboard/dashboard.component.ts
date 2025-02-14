@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 import { ProductCarouselComponent } from '../products/product-carousel/product-carousel.component';
-import { filter, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Product } from '../store/product.model';
 import { Store } from '@ngrx/store';
-import { loadProducts } from '../store/product.actions';
 import { selectProducts } from '../store/product.selectors';
 
 @Component({

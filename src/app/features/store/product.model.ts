@@ -1,17 +1,7 @@
-// Definiert die Struktur eines Produktobjekts
-export interface Product {
-  id?: number;
-  category?: string | null;
-  brand?: string | null;
-  name?: string | null;
-  productPrice?: number;
-  basePrice?: string | null;
-  productSpecification?: string | null;
-  numberOfRating?: number;
-  imgSrc?: string | null;
-  rating?: number;
-}
+import { IProduct } from '../../api/api-client';
 
+// Definiert die Struktur eines Produktobjekts
+export interface Product extends IProduct {}
 
 // id: number;
 // category: string | null;

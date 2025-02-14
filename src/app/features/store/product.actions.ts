@@ -2,7 +2,6 @@ import { createAction, props } from '@ngrx/store';
 // import { Product } from './product.model';
 import { Product } from '../../api/api-client';
 
-
 // Action zum Laden der Produkte
 export const loadProducts = createAction('[Product] Load Products');
 
@@ -20,21 +19,38 @@ export const loadProductsFailure = createAction(
 
 export const addProduct = createAction(
   '[Product] Add Product',
-  props<{ product: Product}>()
+  props<{ product: Product }>()
 );
 
 export const addProductSuccess = createAction(
   '[Product] Add Product Success',
-  props<{ product: Product}>()
+  props<{ product: Product }>()
 );
 
 export const addProductFailure = createAction(
-  '[Product] Add Product Success',
-  props<{ error: any}>()
+  '[Product] Add Product Failure',
+  props<{ error: any }>()
+);
+
+export const deleteProduct = createAction(
+  '[Product] Delete Product',
+  props<{ id: number }>()
+);
+
+export const deleteProductSuccess = createAction(
+  '[Product] Delete Product Success',
+  props<{ id: number }>()
+);
+
+export const deleteProductFailure = createAction(
+  '[Product] Delete Product Success',
+  props<{ error: any }>()
 );
 
 export const ProductsActions = {
   addProduct,
   addProductSuccess,
-  addProductFailure
+  addProductFailure,
+  deleteProduct,
+  deleteProductFailure,
 };

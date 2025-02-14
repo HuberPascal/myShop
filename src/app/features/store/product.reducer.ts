@@ -4,9 +4,9 @@ import { createReducer, on } from '@ngrx/store';
 import * as ProductActions from './product.actions';
 // Importiere die Actions, die der Reducer verarbeiten soll.
 
-import { EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity'
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { Product } from '../../api/api-client';
 
-import { Product } from './product.model';
 // Importiere das Product-Modell, das die Struktur eines Produkts definiert.
 
 export interface State extends EntityState<Product> {
@@ -28,17 +28,17 @@ export interface ProductState {
 export const initialState: ProductState = {
   products: [], // Der anfängliche Zustand der Produktliste ist ein leeres Array.
   error: null, // Zu Beginn gibt es keine Fehler, daher ist der Fehlerzustand `null`.
-  loading: false // Zu Beginn wird nichts geladen.
+  loading: false, // Zu Beginn wird nichts geladen.
 };
 
 export const productReducer = createReducer(
   initialState,
 
   // Wenn die Action `loadProducts` ausgeführt wird:
-  on(ProductActions.loadProducts, state => ({
+  on(ProductActions.loadProducts, (state) => ({
     ...state, // Behalte den aktuellen Zustand bei.
     loading: true, // Ladeprozess beginnt, also `loading: true`
-    error: null // Falls vorher ein Fehler war, wird er zurückgesetzt.
+    error: null, // Falls vorher ein Fehler war, wird er zurückgesetzt.
   })),
 
   // Wenn die Action `loadProductsSuccess` ausgeführt wird:
@@ -46,20 +46,47 @@ export const productReducer = createReducer(
     ...state, // Behalte den aktuellen Zustand bei.
     products, // Aktualisiere die Produktliste mit den neuen Produkten.
     loading: false, // Ladeprozess abgeschlossen
-    error: null // Setze den Fehlerzustand auf `null`, da die Aktion erfolgreich war.
+    error: null, // Setze den Fehlerzustand auf `null`, da die Aktion erfolgreich war.
   })),
 
   // Wenn die Action `loadProductsFailure` ausgeführt wird:
   on(ProductActions.loadProductsFailure, (state, { error }) => ({
     ...state, // Behalte den aktuellen Zustand bei.
     loading: false, // Ladeprozess fehlgeschlagen
-    error // Speichere die Fehlerinformationen im Zustand.
+    error, // Speichere die Fehlerinformationen im Zustand.
   })),
+
+  // on(ProductActions.deleteProduct, (state, {id})) => ({
+  //   ...state,
+  //   product:
+  // })
 
   // Aktion für das Hinzufügen eines Produkts
   on(ProductActions.addProductSuccess, (state, { product }) => ({
     ...state,
-    products: [...state.products, product] // Neues Produkt zum Array hinzufügen
+    products: [...state.products, product], // Neues Produkt zum Array hinzufügen
+  })),
+
+  // on(ProductActions.deleteProductSuccess, (state) => ({
+  //   ...state,
+  //   products: [...state.products],
+  // })),
+
+  on(ProductActions.deleteProduct, (state) => ({
+    ...state,
+    loading: true,
+  })),
+
+  on(ProductActions.deleteProductSuccess, (state, { id }) => ({
+    ...state,
+    products: state.products.filter((product) => product.id !== id),
+    loading: false,
+  })),
+
+  on(ProductActions.deleteProductFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 

@@ -2,11 +2,11 @@
     <mat-form-field>
         <mat-label>Kategorie</mat-label>
         <input matInput type="text" formControlName="category">
-        @if (form.controls['rating'].hasError('required')) {
+        <!-- @if (form.controls['rating']?.hasError('required')) {
             <mat-error>
                 Kategorie ist erforderlich!
             </mat-error>
-        }
+        } -->
     </mat-form-field>
     <mat-form-field>
         <mat-label>Marke</mat-label>

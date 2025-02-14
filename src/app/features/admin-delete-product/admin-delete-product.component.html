@@ -1,0 +1,27 @@
+@if (loading$ | async) {
+<p>Produkte werden geladen</p>
+} @else {
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="d-flex flex-column mt-5"
+>
+  <div>
+    <mat-form-field>
+      <mat-label>{{ selectedProductLabel$ | async }}</mat-label>
+      @if(products$ | async) {
+      <mat-select formControlName="selectedProductId">
+        @for (product of products$ | async; track product.id) {
+        <mat-option [value]="product.id"
+          >{{ product.brand }} {{ product.name }}</mat-option
+        >
+        }
+      </mat-select>
+      }
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-flat-button type="submit">Löschen</button>
+  </div>
+</form>
+}

@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
 import { Store } from '@ngrx/store';
 import { loadProducts } from './features/store/product.actions';
+import { Observable, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +21,12 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.isAdminPage = this.router.url.includes("/admin");
-    })
+      this.isAdminPage = this.router.url.includes('/admin');
+    });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadProducts()); 
-
+    this.store.dispatch(loadProducts());
+    (window as any).productsDebug = of();
   }
 }

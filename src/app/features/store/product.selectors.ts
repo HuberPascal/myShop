@@ -9,3 +9,8 @@ export const selectProducts = createSelector(
   selectProductState,
   (state: ProductState) => state.products
 );
+
+export const selectProductIsLoading = createSelector(
+  selectProductState,
+  (state: ProductState) => state.loading
+);

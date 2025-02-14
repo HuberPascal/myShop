@@ -10,10 +10,12 @@ import {
   addProduct,
   addProductSuccess,
   addProductFailure,
-  
+  deleteProduct,
 } from './product.actions';
 import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Product } from '../../api/api-client';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProductEffects {
@@ -23,27 +25,43 @@ export class ProductEffects {
       mergeMap(() =>
         this.apiService.productAll().pipe(
           map((products) => ProductActions.loadProductsSuccess({ products })),
-          catchError((error) => of(loadProductsFailure({ error: error.message })))
+          catchError((error) =>
+            of(loadProductsFailure({ error: error.message }))
+          )
         )
       )
     )
   );
 
   addProduct$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(addProduct),
-    mergeMap((action) =>
-      this.apiService.productPOST(action.product).pipe(
-        tap((product) => console.log("Produkt hinzufügen", product)),
-        map((product) =>ProductActions.addProductSuccess({ product })),
-        catchError((error) => of(addProductFailure({ error: error.message })))
+    this.actions$.pipe(
+      ofType(addProduct),
+      mergeMap((action) =>
+        this.apiService.productPOST(action.product).pipe(
+          tap((product) => console.log('Produkt hinzufügen', product)),
+          map((product) => ProductActions.addProductSuccess({ product })),
+          catchError((error) => {
+            console.error('Fehler beim Hinzufügen des Produkts', error);
+            return of(
+              ProductActions.addProductFailure({ error: error.message })
+            );
+          })
+        )
       )
     )
-  ))
+  );
 
-  constructor(
-    private actions$: Actions,
-    private productService: ProductService,
-    private apiService: ApiService
-  ) {}
+  deleteProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteProduct),
+      mergeMap((action) =>
+        this.apiService.productDELETE(action.id).pipe(
+          tap((product) => console.log('Produkt hinzufügen', product)),
+          map(() => ProductActions.deleteProductSuccess({ id: action.id }))
+        )
+      )
+    )
+  );
+
+  constructor(private actions$: Actions, private apiService: ApiService) {}
 }

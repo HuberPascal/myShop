@@ -2,7 +2,10 @@
 <div class="wrapper">
     <h1>Admin</h1>
 
-    <button mat-flat-button routerLink="/admin/addProduct" class="mt-5">Produkt hinzufügen</button>
+    <div class="d-flex gap-4">
+        <button mat-flat-button routerLink="/admin/addProduct" class="mt-5">Produkt hinzufügen</button>
+        <button mat-flat-button routerLink="/admin/deleteProduct" class="mt-5">Produkt löschen</button>
+    </div>
 
     <router-outlet></router-outlet>
 </div>
