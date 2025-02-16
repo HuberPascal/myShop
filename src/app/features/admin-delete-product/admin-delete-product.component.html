@@ -1,5 +1,8 @@
 @if (loading$ | async) {
-<p>Produkte werden geladen</p>
+<div class="loading-spinner-container mt-5">
+  <mat-spinner [diameter]="50"></mat-spinner>
+  <p>loading...</p>
+</div>
 } @else {
 <form
   [formGroup]="form"
