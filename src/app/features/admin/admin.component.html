@@ -1,11 +1,17 @@
-
 <div class="wrapper">
-    <h1>Admin</h1>
+  <h1>Admin</h1>
 
-    <div class="d-flex gap-4">
-        <button mat-flat-button routerLink="/admin/addProduct" class="mt-5">Produkt hinzufügen</button>
-        <button mat-flat-button routerLink="/admin/deleteProduct" class="mt-5">Produkt löschen</button>
-    </div>
+  <div class="d-flex gap-4">
+    <button mat-flat-button routerLink="/admin/addProduct" class="mt-5">
+      Produkt hinzufügen
+    </button>
+    <button mat-flat-button routerLink="/admin/deleteProduct" class="mt-5">
+      Produkt löschen
+    </button>
+    <button mat-flat-button routerLink="/admin/editProduct" class="mt-5">
+      Produkt bearbeiten
+    </button>
+  </div>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

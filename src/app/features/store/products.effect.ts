@@ -11,6 +11,7 @@ import {
   addProductSuccess,
   addProductFailure,
   deleteProduct,
+  updateProduct,
 } from './product.actions';
 import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -44,6 +45,24 @@ export class ProductEffects {
             console.error('Fehler beim Hinzufügen des Produkts', error);
             return of(
               ProductActions.addProductFailure({ error: error.message })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  editProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateProduct),
+      mergeMap((action) =>
+        this.apiService.productPUT(action.id, action.product).pipe(
+          tap((product) => console.log('Produkt bearbeiten', product)),
+          map((product) => ProductActions.updateProductSuccess({ product })),
+          catchError((error) => {
+            console.error('Fehler beim Bearbeiten des Produkts', error);
+            return of(
+              ProductActions.updateProductFailure({ error: error.message })
             );
           })
         )

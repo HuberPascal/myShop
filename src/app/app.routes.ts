@@ -6,6 +6,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { AdminComponent } from './features/admin/admin.component';
 import { AdminAddProductComponent } from './features/admin-add-product/admin-add-product.component';
 import { AdminDeleteProductComponent } from './features/admin-delete-product/admin-delete-product.component';
+import { AdminEditProductComponent } from './features/admin-edit-product/admin-edit-product.component';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,7 @@ export const routes: Routes = [
     children: [
       { path: 'addProduct', component: AdminAddProductComponent },
       { path: 'deleteProduct', component: AdminDeleteProductComponent },
-    ]
+      { path: 'editProduct', component: AdminEditProductComponent },
+    ],
   },
-  
 ];

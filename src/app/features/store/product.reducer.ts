@@ -72,6 +72,17 @@ export const productReducer = createReducer(
   //   products: [...state.products],
   // })),
 
+  on(ProductActions.updateProduct, (state) => ({
+    ...state,
+    loading: true,
+  })),
+
+  on(ProductActions.updateProductSuccess, (state, { product }) => ({
+    ...state,
+    products: state.products.map((p) => (p.id === product.id ? product : p)),
+    loading: false,
+  })),
+
   on(ProductActions.deleteProduct, (state) => ({
     ...state,
     loading: true,

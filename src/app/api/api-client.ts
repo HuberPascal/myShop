@@ -31,11 +31,10 @@ export interface IApiClient {
      */
     productDELETE(id: number | undefined): Observable<void>;
     /**
-     * @param id (optional) 
      * @param body (optional) 
      * @return OK
      */
-    productPUT(id: number | undefined, body: Product | undefined): Observable<void>;
+    productPUT(id: number, body: Product | undefined): Observable<Product>;
 }
 
 @Injectable({
@@ -92,19 +91,26 @@ export class ApiClient implements IApiClient {
             (response as any).error instanceof Blob ? (response as any).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 201) {
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Product.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 201) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result201 = Product.fromJS(resultData201);
             return _observableOf(result201);
             }));
-        } else if (status === 200) {
+        } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = Product.fromJS(resultData200);
-            return _observableOf(result200);
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -225,16 +231,14 @@ export class ApiClient implements IApiClient {
     }
 
     /**
-     * @param id (optional) 
      * @param body (optional) 
      * @return OK
      */
-    productPUT(id: number | undefined, body: Product | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/Product?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    productPUT(id: number, body: Product | undefined): Observable<Product> {
+        let url_ = this.baseUrl + "/api/Product/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -245,6 +249,7 @@ export class ApiClient implements IApiClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
@@ -255,14 +260,14 @@ export class ApiClient implements IApiClient {
                 try {
                     return this.processProductPUT(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Product>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Product>;
         }));
     }
 
-    protected processProductPUT(response: HttpResponseBase): Observable<void> {
+    protected processProductPUT(response: HttpResponseBase): Observable<Product> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -271,7 +276,10 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Product.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -280,6 +288,70 @@ export class ApiClient implements IApiClient {
         }
         return _observableOf(null as any);
     }
+}
+
+export class ProblemDetails implements IProblemDetails {
+    type?: string | null;
+    title?: string | null;
+    status?: number | null;
+    detail?: string | null;
+    instance?: string | null;
+
+    [key: string]: any;
+
+    constructor(data?: IProblemDetails) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.type = _data["type"] !== undefined ? _data["type"] : <any>null;
+            this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
+            this.status = _data["status"] !== undefined ? _data["status"] : <any>null;
+            this.detail = _data["detail"] !== undefined ? _data["detail"] : <any>null;
+            this.instance = _data["instance"] !== undefined ? _data["instance"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ProblemDetails {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProblemDetails();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["type"] = this.type !== undefined ? this.type : <any>null;
+        data["title"] = this.title !== undefined ? this.title : <any>null;
+        data["status"] = this.status !== undefined ? this.status : <any>null;
+        data["detail"] = this.detail !== undefined ? this.detail : <any>null;
+        data["instance"] = this.instance !== undefined ? this.instance : <any>null;
+        return data;
+    }
+}
+
+export interface IProblemDetails {
+    type?: string | null;
+    title?: string | null;
+    status?: number | null;
+    detail?: string | null;
+    instance?: string | null;
+
+    [key: string]: any;
 }
 
 export class Product implements IProduct {
