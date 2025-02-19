@@ -129,26 +129,6 @@
   }
 }
 
-.available-container {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  color: #2c8800;
-  font-size: 14px;
-
-  .left-section {
-    .icon path {
-      fill: #73c44d;
-    }
-  }
-
-  .right-section {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-}
-
 .button-container {
   width: 100%;
 

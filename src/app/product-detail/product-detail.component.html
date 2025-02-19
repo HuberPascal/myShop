@@ -30,34 +30,12 @@
             </div>
           </div>
           <div class="rating-right">
-            <a href="#"><span>Marke</span>Mehr von {{product.brand}}</a>
+            <a href="#"><span>Marke</span>Mehr von {{ product.brand }}</a>
           </div>
         </div>
       </div>
       <div class="product-detail-container-bottom">
-        <div class="available-container">
-          <div class="left-section">
-            <span>
-              <svg
-                class="icon"
-                fill="none"
-                viewBox="0 0 16 16"
-                width="16"
-                height="16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M6.893 11.139 3.847 8.092l1.108-1.015 1.938 1.939 4.153-4.154 1.108 1.107zM8 1.999A6 6 0 1 0 8 14.003 6 6 0 0 0 8 2"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </span>
-          </div>
-          <div class="right-section">
-            <span>Morgen geliefert</span>
-            <span>Mehr als 10 Stück an Lager</span>
-          </div>
-        </div>
+        <app-available-container></app-available-container>
         <div class="button-container">
           <div class="shopping-container">
             <button>

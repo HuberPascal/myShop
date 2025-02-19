@@ -1,0 +1,124 @@
+.card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .mat-icon {
+    cursor: pointer;
+  }
+}
+
+.cart-content {
+  ul {
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    img {
+      width: 120px;
+      //   height: 120px;
+    }
+  }
+
+  .cart-item {
+    display: flex;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+
+    .cart-item-area-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+
+      .cart-item-text-container {
+        flex: 1;
+      }
+
+      .item-right-container {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .price-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          .mat-mdc-form-field {
+            width: 80px;
+          }
+
+          span {
+            font-size: 14px;
+            font-weight: 650;
+          }
+        }
+
+        .price-edit-container {
+          display: flex;
+
+          .mat-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+          }
+
+          button {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #007bc7;
+            font-size: 14px;
+            padding: 0;
+          }
+
+          .separator {
+            margin: 0 16px;
+            background-color: #ddd;
+            height: auto;
+            width: 1px;
+          }
+        }
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cart-item-title {
+      display: flex;
+
+      span {
+        font-size: 18px;
+        &:nth-child(1) {
+          font-weight: 650;
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}

@@ -27,7 +27,6 @@ export class ProductCarouselComponent {
   scrollContainer!: ElementRef;
   private scrollAmount = 1000;
 
-
   scroll(direction: 'left' | 'right'): void {
     const container = this.scrollContainer.nativeElement as HTMLElement;
     const scrollOptions: ScrollToOptions = {

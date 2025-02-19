@@ -7,6 +7,7 @@ import { AdminComponent } from './features/admin/admin.component';
 import { AdminAddProductComponent } from './features/admin-add-product/admin-add-product.component';
 import { AdminDeleteProductComponent } from './features/admin-delete-product/admin-delete-product.component';
 import { AdminEditProductComponent } from './features/admin-edit-product/admin-edit-product.component';
+import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'product/:id',
     component: ProductDetailComponent,
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
   },
   {
     path: 'admin',

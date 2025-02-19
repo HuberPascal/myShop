@@ -8,7 +8,7 @@ import { ProductRatingComponent } from '../product-rating/product-rating.compone
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { selectProducts } from '../features/store/product.selectors';
-
+import { AvailableContainerComponent } from '../features/available-container/available-container.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -17,6 +17,7 @@ import { selectProducts } from '../features/store/product.selectors';
     MatCardModule,
     ProductRatingComponent,
     CommonModule,
+    AvailableContainerComponent,
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
@@ -26,14 +27,16 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-   private store: Store<{ products: Product[]}>
+    private store: Store<{ products: Product[] }>
   ) {}
 
   ngOnInit(): void {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.product$ = this.store.select(selectProducts).pipe(
-      map(products => products.find(product => product.id === productId))
-    );
+    this.product$ = this.store
+      .select(selectProducts)
+      .pipe(
+        map((products) => products.find((product) => product.id === productId))
+      );
   }
 }
