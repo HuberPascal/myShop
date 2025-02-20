@@ -9,15 +9,18 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ProductEffects } from './features/store/products.effect';
 import { productReducer } from './features/store/product.reducer';
 import { provideHttpClient } from '@angular/common/http';
+import { CartEffects } from './features/store/effects/cart.effect';
+import { cartReducer } from './features/store/reducers/cart.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideStore({ data: productReducer }),
-    provideEffects(ProductEffects),
-    provideStoreDevtools(), provideAnimationsAsync(),
+    provideStore({ data: productReducer, cartReducer }),
+    provideEffects(ProductEffects, CartEffects),
+    provideStoreDevtools(),
+    provideAnimationsAsync(),
     provideHttpClient(),
   ],
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { selectProducts } from '../features/store/product.selectors';
 import { AvailableContainerComponent } from '../features/available-container/available-container.component';
+import { addToCart } from '../features/store/actions/cart.actions';
 
 @Component({
   selector: 'app-product-detail',
@@ -24,6 +25,7 @@ import { AvailableContainerComponent } from '../features/available-container/ava
 })
 export class ProductDetailComponent implements OnInit {
   product$: Observable<Product | undefined> | undefined;
+  destroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
@@ -38,5 +40,18 @@ export class ProductDetailComponent implements OnInit {
       .pipe(
         map((products) => products.find((product) => product.id === productId))
       );
+  }
+
+  addToCart() {
+    this.product$?.subscribe((product) => {
+      if (product) {
+        if (product.id !== null && product.id !== undefined) {
+          console.log('Product ID:', product.id);
+          this.store.dispatch(
+            addToCart({ productId: product.id, quantity: 1 })
+          );
+        }
+      }
+    });
   }
 }

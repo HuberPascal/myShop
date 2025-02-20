@@ -11,12 +11,13 @@ export class ApiService extends ApiClient {
     super(http, 'https://localhost:7137'); // API-URL hier anpassen
   }
 
-//   getProducts(): Observable<Product[]> {
-//     return this.http.get<Product[]>(this.baseUrl + '/api/products');
-//   }
-
-addProductsToDatabase(product: any) { // Product ergibt einen Fehler
-  console.log("product in apiService", product)
-  this.productPOST(product)  // wie kann ich das produkt an den ApiCLient senden?
-}
+  //   getProducts(): Observable<Product[]> {
+  //     return this.http.get<Product[]>(this.baseUrl + '/api/products');
+  //   }
+  // TODO: löschen?
+  addProductsToDatabase(product: any) {
+    // Product ergibt einen Fehler
+    console.log('product in apiService', product);
+    this.productPOST(product); // wie kann ich das produkt an den ApiCLient senden?
+  }
 }
