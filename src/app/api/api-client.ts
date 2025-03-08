@@ -17,14 +17,19 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IApiClient {
     /**
+     * @param body (optional) 
      * @return OK
      */
-    cartItemAll(): Observable<CartItem[]>;
+    cart(body: Cart | undefined): Observable<Cart>;
+    /**
+     * @return OK
+     */
+    cartItemAll(): Observable<CartItemDto[]>;
     /**
      * @param body (optional) 
      * @return OK
      */
-    cartItem(body: CartItem | undefined): Observable<CartItem>;
+    cartItem(body: AddCartItemData | undefined): Observable<CartItem>;
     /**
      * @param body (optional) 
      * @return OK
@@ -60,9 +65,65 @@ export class ApiClient implements IApiClient {
     }
 
     /**
+     * @param body (optional) 
      * @return OK
      */
-    cartItemAll(): Observable<CartItem[]> {
+    cart(body: Cart | undefined): Observable<Cart> {
+        let url_ = this.baseUrl + "/api/Cart";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCart(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCart(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Cart>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Cart>;
+        }));
+    }
+
+    protected processCart(response: HttpResponseBase): Observable<Cart> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Cart.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    cartItemAll(): Observable<CartItemDto[]> {
         let url_ = this.baseUrl + "/api/CartItem";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -81,14 +142,14 @@ export class ApiClient implements IApiClient {
                 try {
                     return this.processCartItemAll(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<CartItem[]>;
+                    return _observableThrow(e) as any as Observable<CartItemDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<CartItem[]>;
+                return _observableThrow(response_) as any as Observable<CartItemDto[]>;
         }));
     }
 
-    protected processCartItemAll(response: HttpResponseBase): Observable<CartItem[]> {
+    protected processCartItemAll(response: HttpResponseBase): Observable<CartItemDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -102,7 +163,7 @@ export class ApiClient implements IApiClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(CartItem.fromJS(item));
+                    result200!.push(CartItemDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -121,7 +182,7 @@ export class ApiClient implements IApiClient {
      * @param body (optional) 
      * @return OK
      */
-    cartItem(body: CartItem | undefined): Observable<CartItem> {
+    cartItem(body: AddCartItemData | undefined): Observable<CartItem> {
         let url_ = this.baseUrl + "/api/CartItem";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -413,9 +474,53 @@ export class ApiClient implements IApiClient {
     }
 }
 
+export class AddCartItemData implements IAddCartItemData {
+    productId?: number;
+    cartId?: number | null;
+    amount?: number;
+
+    constructor(data?: IAddCartItemData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.productId = _data["productId"] !== undefined ? _data["productId"] : <any>null;
+            this.cartId = _data["cartId"] !== undefined ? _data["cartId"] : <any>null;
+            this.amount = _data["amount"] !== undefined ? _data["amount"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): AddCartItemData {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddCartItemData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["productId"] = this.productId !== undefined ? this.productId : <any>null;
+        data["cartId"] = this.cartId !== undefined ? this.cartId : <any>null;
+        data["amount"] = this.amount !== undefined ? this.amount : <any>null;
+        return data;
+    }
+}
+
+export interface IAddCartItemData {
+    productId?: number;
+    cartId?: number | null;
+    amount?: number;
+}
+
 export class Cart implements ICart {
-    id?: number;
-    userId?: string | null;
+    id?: number | null;
+    userId?: number;
     items?: CartItem[] | null;
 
     constructor(data?: ICart) {
@@ -463,8 +568,8 @@ export class Cart implements ICart {
 }
 
 export interface ICart {
-    id?: number;
-    userId?: string | null;
+    id?: number | null;
+    userId?: number;
     items?: CartItem[] | null;
 }
 
@@ -472,8 +577,7 @@ export class CartItem implements ICartItem {
     id?: number;
     productId?: number;
     quantity?: number;
-    cartId?: number;
-    cart?: Cart;
+    cartId?: number | null;
 
     constructor(data?: ICartItem) {
         if (data) {
@@ -490,7 +594,6 @@ export class CartItem implements ICartItem {
             this.productId = _data["productId"] !== undefined ? _data["productId"] : <any>null;
             this.quantity = _data["quantity"] !== undefined ? _data["quantity"] : <any>null;
             this.cartId = _data["cartId"] !== undefined ? _data["cartId"] : <any>null;
-            this.cart = _data["cart"] ? Cart.fromJS(_data["cart"]) : <any>null;
         }
     }
 
@@ -507,7 +610,6 @@ export class CartItem implements ICartItem {
         data["productId"] = this.productId !== undefined ? this.productId : <any>null;
         data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
         data["cartId"] = this.cartId !== undefined ? this.cartId : <any>null;
-        data["cart"] = this.cart ? this.cart.toJSON() : <any>null;
         return data;
     }
 }
@@ -516,8 +618,55 @@ export interface ICartItem {
     id?: number;
     productId?: number;
     quantity?: number;
-    cartId?: number;
-    cart?: Cart;
+    cartId?: number | null;
+}
+
+export class CartItemDto implements ICartItemDto {
+    id?: number;
+    productId?: number;
+    quantity?: number;
+    cartId?: number | null;
+
+    constructor(data?: ICartItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.productId = _data["productId"] !== undefined ? _data["productId"] : <any>null;
+            this.quantity = _data["quantity"] !== undefined ? _data["quantity"] : <any>null;
+            this.cartId = _data["cartId"] !== undefined ? _data["cartId"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CartItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CartItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["productId"] = this.productId !== undefined ? this.productId : <any>null;
+        data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
+        data["cartId"] = this.cartId !== undefined ? this.cartId : <any>null;
+        return data;
+    }
+}
+
+export interface ICartItemDto {
+    id?: number;
+    productId?: number;
+    quantity?: number;
+    cartId?: number | null;
 }
 
 export class ProblemDetails implements IProblemDetails {

@@ -5,6 +5,8 @@
     <app-product-carousel [products$]="products$"></app-product-carousel>
     <app-product-carousel [products$]="products$"></app-product-carousel>
   </div>
+
+  x:{{ (products$ | async)?.[0]?.basePrice }}
   <div class="sidebar-content">
     <app-sidebar></app-sidebar>
   </div>

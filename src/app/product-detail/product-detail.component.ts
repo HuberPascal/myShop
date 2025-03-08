@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { selectProducts } from '../features/store/product.selectors';
 import { AvailableContainerComponent } from '../features/available-container/available-container.component';
 import { addToCart } from '../features/store/actions/cart.actions';
+import { ICartItem } from '../api/api-client';
 
 @Component({
   selector: 'app-product-detail',
@@ -47,9 +48,7 @@ export class ProductDetailComponent implements OnInit {
       if (product) {
         if (product.id !== null && product.id !== undefined) {
           console.log('Product ID:', product.id);
-          this.store.dispatch(
-            addToCart({ productId: product.id, quantity: 1 })
-          );
+          this.store.dispatch(addToCart({ productId: product.id }));
         }
       }
     });
