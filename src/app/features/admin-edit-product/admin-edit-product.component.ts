@@ -78,6 +78,8 @@ export class AdminEditProductComponent {
     this.products$ = this.store.select(selectProducts);
     this.loading$ = this.store.select(selectProductIsLoading);
 
+    this.products$.subscribe((state) => console.log(state));
+
     this.selectedProductLabel$ = this.products$.pipe(
       map((products) =>
         products.length > 0

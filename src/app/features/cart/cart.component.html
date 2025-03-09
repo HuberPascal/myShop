@@ -5,24 +5,26 @@
   >
 </div>
 
+@for (cartProduct of cartProducts$ | async; track cartProduct.id) {
 <section class="cart-content">
   <li class="cart-product-wrapper">
     <ul class="cart-item">
       <a href="#">
-        <img
-          src="/img/products/abbott_bluttest.avif"
-          alt="product cart image"
-        />
+        <img [src]="'/img/products/' + cartProduct.imgSrc" alt="product-img" />
       </a>
       <div class="cart-item-area-container">
         <div class="cart-item-text-container">
           <a href="#">
             <div>
               <p class="cart-item-title mb-1">
-                <span>Uppercut Deluxe</span>
-                <span> Pomade</span>
+                <span>{{ cartProduct.brand }}</span
+                >&nbsp;
+                <span> {{ cartProduct.name }}</span>
               </p>
-              <p>Haargel, 100 ml</p>
+              <p>
+                {{ cartProduct.category }},
+                {{ cartProduct.productSpecification }}
+              </p>
             </div>
             <app-available-container></app-available-container>
           </a>
@@ -41,7 +43,7 @@
                 }
               </mat-select>
             </mat-form-field>
-            <span>99.50</span>
+            <span>{{ cartProduct.productPrice }}.-</span>
           </div>
           <div class="price-edit-container">
             <button>
@@ -58,3 +60,4 @@
     </ul>
   </li>
 </section>
+}
