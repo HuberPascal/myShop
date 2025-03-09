@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 // import { Product } from './product.model';
-import { Product } from '../../api/api-client';
+import { Product } from '../../../api/api-client';
 
 // Action zum Laden der Produkte
 export const loadProducts = createAction('[Product] Load Products');

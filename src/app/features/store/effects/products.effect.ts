@@ -1,22 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ProductService } from '../../Core/services/product.service'; // Statische Produkte
-import { ApiService } from '../../Core/services/api.service';
-import * as ProductActions from './product.actions';
-import {
-  loadProducts,
-  loadProductsSuccess,
-  loadProductsFailure,
-  addProduct,
-  addProductSuccess,
-  addProductFailure,
-  deleteProduct,
-  updateProduct,
-} from './product.actions';
-import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Product } from '../../api/api-client';
-import { HttpClient } from '@angular/common/http';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { ApiService } from '../../../Core/services/api.service';
+import {
+  addProduct,
+  deleteProduct,
+  loadProducts,
+  loadProductsFailure,
+  updateProduct,
+} from '../actions/product.actions';
+import * as ProductActions from '../actions/product.actions';
 
 @Injectable()
 export class ProductEffects {

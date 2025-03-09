@@ -17,19 +17,37 @@ export const initialState: CartState = {
 
 export const cartReducer = createReducer(
   initialState,
+  // Aktion beim Start des Hinzufügens
+  on(CartActions.addToCart, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  // Erfolgreiche Hinzufügen-Aktion
   on(CartActions.addToCartSuccess, (state, { cartItem }) => ({
     ...state,
+    loading: false,
     items: [
       ...state.items.filter((item) => item.productId !== cartItem.productId),
       {
         productId:
           cartItem.productId !== undefined
             ? cartItem.productId
-            : state.items[0].productId,
-        cartId: cartItem.cartId ?? state.cartId, // Falls cartItem.cartId undefined ist, behalte den vorherigen Wert aus dem State
-        quantity: cartItem.quantity !== undefined ? cartItem.quantity : 0,
+            : state.items.length > 0
+            ? state.items[0].productId
+            : 0, // Verhindere Zugriff auf leeres Array
+        cartId: cartItem.cartId ?? state.cartId,
+        quantity: cartItem.quantity !== undefined ? cartItem.quantity : 1, // Default zu 1 statt 0
       },
     ],
-    cartId: cartItem.cartId ?? state.cartId, // Aktualisiere cartId im State, falls vorhanden
+    cartId: cartItem.cartId ?? state.cartId,
+  })),
+
+  // Fehlerbehandlung
+  on(CartActions.addToCartFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );

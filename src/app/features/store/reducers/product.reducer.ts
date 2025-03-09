@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 // Importiere die NgRx-Funktionen zum Erstellen eines Reducers und für die Verarbeitung von Actions.
 
-import * as ProductActions from './product.actions';
+import * as ProductActions from '../actions/product.actions';
 // Importiere die Actions, die der Reducer verarbeiten soll.
 
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Product } from '../../api/api-client';
+import { Product } from '../../../api/api-client';
 
 // Importiere das Product-Modell, das die Struktur eines Produkts definiert.
 

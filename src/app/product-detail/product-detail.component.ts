@@ -11,6 +11,7 @@ import { selectProducts } from '../features/store/product.selectors';
 import { AvailableContainerComponent } from '../features/available-container/available-container.component';
 import { addToCart } from '../features/store/actions/cart.actions';
 import { ICartItem } from '../api/api-client';
+import { AppState } from '../features/store';
 
 @Component({
   selector: 'app-product-detail',
@@ -28,10 +29,7 @@ export class ProductDetailComponent implements OnInit {
   product$: Observable<Product | undefined> | undefined;
   destroyRef = inject(DestroyRef);
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<{ products: Product[] }>
-  ) {}
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,18 +37,17 @@ export class ProductDetailComponent implements OnInit {
     this.product$ = this.store
       .select(selectProducts)
       .pipe(
-        map((products) => products.find((product) => product.id === productId))
+        map((products) =>
+          products.find((product: any) => product.id === productId)
+        )
       );
   }
 
   addToCart() {
-    this.product$?.subscribe((product) => {
-      if (product) {
-        if (product.id !== null && product.id !== undefined) {
-          console.log('Product ID:', product.id);
-          this.store.dispatch(addToCart({ productId: product.id }));
-        }
-      }
-    });
+    const productId = this.route.snapshot.paramMap.get('id');
+    if (productId) {
+      console.log('Product ID:', Number(productId));
+      this.store.dispatch(addToCart({ productId: Number(productId) }));
+    }
   }
 }

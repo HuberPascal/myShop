@@ -8,15 +8,14 @@ import { ApiService } from '../../../Core/services/api.service';
 import { CartService } from '../../../Core/services/cart.service';
 import * as CartActions from '../actions/cart.actions';
 import { addToCart } from '../actions/cart.actions';
+import { productReducer } from '../reducers/product.reducer';
 
 @Injectable()
 export class CartEffects {
   addItemToCart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addToCart),
-      withLatestFrom(
-        this.store.select((state) => Number(state?.cartReducer?.cartId ?? null))
-      ),
+      withLatestFrom(this.store.select((state) => state.cartReducer?.cartId)),
       tap((action) => console.log('Action received:', action)),
       mergeMap(([action, cartId]) => {
         const myDataForBackend = new CartItem({

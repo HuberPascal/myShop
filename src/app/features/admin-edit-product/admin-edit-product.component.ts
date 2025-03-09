@@ -18,7 +18,7 @@ import {
 } from '../store/product.selectors';
 import { IProduct, Product } from '../../api/api-client';
 import { MatButtonModule } from '@angular/material/button';
-import { ProductsActions } from '../store/product.actions';
+import { ProductsActions } from '../store/actions/product.actions';
 
 export type FormGroupMap<T> = {
   [key in keyof T]: FormControl<T[key]>;

@@ -18,8 +18,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { FormGroupMap } from '../admin-add-product/admin-add-product.component';
-import { ProductsActions } from '../store/product.actions';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ProductsActions } from '../store/actions/product.actions';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-admin-delete-product',
@@ -30,7 +30,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     CommonModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './admin-delete-product.component.html',
   styleUrl: './admin-delete-product.component.scss',

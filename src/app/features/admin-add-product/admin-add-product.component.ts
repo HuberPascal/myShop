@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ProductsActions } from '../store/product.actions';
+import { ProductsActions } from '../store/actions/product.actions';
 import { IProduct, Product } from '../../api/api-client';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';

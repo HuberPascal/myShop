@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { loadProducts } from './features/store/actions/product.actions';
 import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
-import { Store } from '@ngrx/store';
-import { loadProducts } from './features/store/product.actions';
-import { Observable, of, Subject } from 'rxjs';
+import { AppState } from './features/store';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,9 @@ import { Observable, of, Subject } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title = 'myShop';
-
   isAdminPage = false;
-
-  private store = inject(Store);
+  private productsLoaded = false; // Flag, um zu tracken, ob Produkte bereits geladen wurden
+  private store = inject(Store<AppState>);
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
@@ -26,7 +26,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadProducts());
-    (window as any).productsDebug = of();
+    // Prüfe, ob wir bereits Produkte geladen haben
+    // if (!this.productsLoaded) {
+    //   this.store.dispatch(loadProducts());
+    //   this.productsLoaded = true;
+    // }
+    // (window as any).productsDebug = of();
   }
 }

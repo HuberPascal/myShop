@@ -1,13 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { Product } from '../../store/product.model';
-import { loadProducts } from '../../store/product.actions';
-import { ProductRatingComponent } from '../../../product-rating/product-rating.component';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ProductRatingComponent } from '../../../product-rating/product-rating.component';
+import { Product } from '../../store/product.model';
 
 @Component({
   selector: 'app-product-carousel',

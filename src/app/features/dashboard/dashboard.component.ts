@@ -1,12 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 import { ProductCarouselComponent } from '../products/product-carousel/product-carousel.component';
-import { map, Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { map, Observable, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { Product } from '../store/product.model';
 import { Store } from '@ngrx/store';
 import { selectProducts } from '../store/product.selectors';
+import { AppState } from '../store';
+import { loadProducts } from '../store/actions/product.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,22 +16,24 @@ import { selectProducts } from '../store/product.selectors';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   products$: Observable<Product[]>;
-  myCustomDestroyHandler = new Subject();
 
-  //memoryleaks management
-  // v1 keep array of subsibers
-  myObservables: Subscription[] = [];
-  //v2 use subject
-  // destructionSubject = new Subject();
-
-  // foo = {
-  //   name: {},
-  //   toString: () => 'avc',
-  // };
-  constructor(private store: Store<{ products: Product[] }>) {
+  constructor(private store: Store<AppState>) {
     this.products$ = this.store.select(selectProducts);
+  }
+
+  // In DashboardComponent
+  ngOnInit(): void {
+    // Lade Produkte nur, wenn sie noch nicht geladen wurden
+    this.store
+      .select((state) => state.product.products)
+      .pipe(take(1))
+      .subscribe((products) => {
+        if (!products || products.length === 0) {
+          this.store.dispatch(loadProducts());
+        }
+      });
   }
 }
 // handle() {
