@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Product } from '../features/store/product.model';
+import { Product } from '../../api/api-client';
 import { Store } from '@ngrx/store';
-import { selectProducts } from '../features/store/product.selectors';
+import { selectProducts } from '../store/product.selectors';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AppState } from '../features/store';
+import { AppState } from '../store';
 
 @Component({
   selector: 'app-sidebar',

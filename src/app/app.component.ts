@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { loadProducts } from './features/store/actions/product.actions';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './features/header/header.component';
 import { NavComponent } from './nav/nav.component';
 import { AppState } from './features/store';
 

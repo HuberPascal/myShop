@@ -2,16 +2,16 @@ import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
-import { Product } from '../features/store/product.model';
+import { Product } from '../store/product.model';
 import { map, Observable } from 'rxjs';
 import { ProductRatingComponent } from '../product-rating/product-rating.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { selectProducts } from '../features/store/product.selectors';
-import { AvailableContainerComponent } from '../features/available-container/available-container.component';
-import { addToCart } from '../features/store/actions/cart.actions';
-import { ICartItem } from '../api/api-client';
-import { AppState } from '../features/store';
+import { selectProducts } from '../store/product.selectors';
+import { AvailableContainerComponent } from '../available-container/available-container.component';
+import { addToCart } from '../store/actions/cart.actions';
+import { ICartItem } from '../../api/api-client';
+import { AppState } from '../store';
 
 @Component({
   selector: 'app-product-detail',

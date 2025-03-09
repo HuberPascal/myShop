@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Product } from '../features/store/product.model';
+import { Product } from '../store/product.model';
 
 @Component({
   selector: 'app-product-rating',

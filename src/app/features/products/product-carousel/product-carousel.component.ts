@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProductRatingComponent } from '../../../product-rating/product-rating.component';
+import { ProductRatingComponent } from '../../product-rating/product-rating.component';
 import { Product } from '../../store/product.model';
 
 @Component({

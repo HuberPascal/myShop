@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 import { ProductCarouselComponent } from '../products/product-carousel/product-carousel.component';
 import { map, Observable, Subject, Subscription, take, takeUntil } from 'rxjs';
