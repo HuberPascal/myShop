@@ -1,12 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { ICartItem, ICart } from '../../../api/api-client';
+import { ICartItem, CreateCartDto } from '../../../api/api-client';
 
 // Warenkorb laden
 export const loadCart = createAction('[Cart] Load Cart');
 
 export const loadCartSuccess = createAction(
   '[Cart] Load Cart Success',
-  props<{ cart: ICart }>() // Sollte den gesamten Warenkorb enthalten
+  props<{ cartItems: ICartItem[] }>() // Sollte den gesamten Warenkorb enthalten
 );
 
 export const loadCartFailure = createAction(
@@ -28,5 +28,20 @@ export const addToCartSuccess = createAction(
 // Fehlerbehandlung für "Hinzufügen zum Warenkorb"
 export const addToCartFailure = createAction(
   '[Cart] Add to Cart Failure',
+  props<{ error: any }>()
+);
+
+export const createCart = createAction(
+  '[Cart] Create Cart',
+  props<{ userId: number }>()
+);
+
+export const createCartSuccess = createAction(
+  '[Cart] Create Cart Success',
+  props<{ cartId: CreateCartDto }>()
+);
+
+export const createCartFailure = createAction(
+  '[Cart] Create Cart Failure',
   props<{ error: any }>()
 );

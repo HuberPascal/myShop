@@ -16,5 +16,7 @@ export const reducers: ActionReducerMap<AppState> = {
   // Andere Reducer hier hinzufügen
 };
 
-export const metaReducers: MetaReducer<AppState>[] = [];
+export const metaReducers: MetaReducer<AppState>[] = [
+  // Add actual meta reducers here, e.g., storageMetaReducer
+];
 // Hier könntest du deine Meta-Reducer wie storageMetaReducer hinzufügen

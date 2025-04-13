@@ -11,7 +11,7 @@ import { selectProducts } from '../store/product.selectors';
 import { AvailableContainerComponent } from '../available-container/available-container.component';
 import { addToCart } from '../store/actions/cart.actions';
 import { ICartItem } from '../../api/api-client';
-import { AppState } from '../store';
+import { AppState } from '../store/app.state';
 
 @Component({
   selector: 'app-product-detail',
@@ -44,10 +44,12 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    const productId = this.route.snapshot.paramMap.get('id');
+    const productId: number = parseInt(
+      this.route.snapshot.paramMap.get('id') || '0'
+    );
     if (productId) {
       console.log('Product ID:', Number(productId));
-      this.store.dispatch(addToCart({ productId: Number(productId) }));
+      this.store.dispatch(addToCart({ productId: productId }));
     }
   }
 }

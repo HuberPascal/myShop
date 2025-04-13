@@ -33,7 +33,6 @@ export class ProductEffects {
       ofType(addProduct),
       mergeMap((action) =>
         this.apiService.productPOST(action.product).pipe(
-          tap((product) => console.log('Produkt hinzufügen', product)),
           map((product) => ProductActions.addProductSuccess({ product })),
           catchError((error) => {
             console.error('Fehler beim Hinzufügen des Produkts', error);

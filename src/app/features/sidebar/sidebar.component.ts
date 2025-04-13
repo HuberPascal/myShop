@@ -5,7 +5,7 @@ import { selectProducts } from '../store/product.selectors';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AppState } from '../store';
+import { AppState } from '../store/app.state';
 
 @Component({
   selector: 'app-sidebar',

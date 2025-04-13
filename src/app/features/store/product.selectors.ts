@@ -1,6 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { ProductState } from './reducers/product.reducer';
-import { AppState } from './index';
+import { AppState } from './app.state';
 
 // Holt den Product-State aus dem globalen Store
 // Der Name 'data' muss mit dem Schlüssel in der reducers-Map übereinstimmen

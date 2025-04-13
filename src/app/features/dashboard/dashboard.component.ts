@@ -7,8 +7,10 @@ import { map, Observable, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { Product } from '../store/product.model';
 import { Store } from '@ngrx/store';
 import { selectProducts } from '../store/product.selectors';
-import { AppState } from '../store';
+import { selectCartId } from '../store/cart.selectors';
+import { AppState } from '../store/app.state';
 import { loadProducts } from '../store/actions/product.actions';
+import { loadCart } from '../store/actions/cart.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,13 +27,20 @@ export class DashboardComponent implements OnInit {
 
   // In DashboardComponent
   ngOnInit(): void {
-    // Lade Produkte nur, wenn sie noch nicht geladen wurden
     this.store
       .select((state) => state.product.products)
       .pipe(take(1))
       .subscribe((products) => {
         if (!products || products.length === 0) {
           this.store.dispatch(loadProducts());
+        }
+      });
+    this.store
+      .select((state) => state.cart.cartId)
+      .pipe(take(1))
+      .subscribe((cartId) => {
+        if (!cartId) {
+          this.store.dispatch(loadCart());
         }
       });
   }

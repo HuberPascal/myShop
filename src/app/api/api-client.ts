@@ -20,7 +20,7 @@ export interface IApiClient {
      * @param body (optional) 
      * @return OK
      */
-    cart(body: Cart | undefined): Observable<Cart>;
+    cart(body: number | undefined): Observable<CreateCartDto>;
     /**
      * @return OK
      */
@@ -68,7 +68,7 @@ export class ApiClient implements IApiClient {
      * @param body (optional) 
      * @return OK
      */
-    cart(body: Cart | undefined): Observable<Cart> {
+    cart(body: number | undefined): Observable<CreateCartDto> {
         let url_ = this.baseUrl + "/api/Cart";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -91,14 +91,14 @@ export class ApiClient implements IApiClient {
                 try {
                     return this.processCart(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<Cart>;
+                    return _observableThrow(e) as any as Observable<CreateCartDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<Cart>;
+                return _observableThrow(response_) as any as Observable<CreateCartDto>;
         }));
     }
 
-    protected processCart(response: HttpResponseBase): Observable<Cart> {
+    protected processCart(response: HttpResponseBase): Observable<CreateCartDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -109,7 +109,7 @@ export class ApiClient implements IApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = Cart.fromJS(resultData200);
+            result200 = CreateCartDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -518,61 +518,6 @@ export interface IAddCartItemData {
     amount?: number;
 }
 
-export class Cart implements ICart {
-    id?: number | null;
-    userId?: number;
-    items?: CartItem[] | null;
-
-    constructor(data?: ICart) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            this.userId = _data["userId"] !== undefined ? _data["userId"] : <any>null;
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(CartItem.fromJS(item));
-            }
-            else {
-                this.items = <any>null;
-            }
-        }
-    }
-
-    static fromJS(data: any): Cart {
-        data = typeof data === 'object' ? data : {};
-        let result = new Cart();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["userId"] = this.userId !== undefined ? this.userId : <any>null;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface ICart {
-    id?: number | null;
-    userId?: number;
-    items?: CartItem[] | null;
-}
-
 export class CartItem implements ICartItem {
     id?: number;
     productId?: number;
@@ -667,6 +612,42 @@ export interface ICartItemDto {
     productId?: number;
     quantity?: number;
     cartId?: number | null;
+}
+
+export class CreateCartDto implements ICreateCartDto {
+    cartId?: number;
+
+    constructor(data?: ICreateCartDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.cartId = _data["cartId"] !== undefined ? _data["cartId"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CreateCartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["cartId"] = this.cartId !== undefined ? this.cartId : <any>null;
+        return data;
+    }
+}
+
+export interface ICreateCartDto {
+    cartId?: number;
 }
 
 export class ProblemDetails implements IProblemDetails {
