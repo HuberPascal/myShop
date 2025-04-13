@@ -9,23 +9,62 @@ import { CartService } from '../../../Core/services/cart.service';
 import * as CartActions from '../actions/cart.actions';
 import { addToCart } from '../actions/cart.actions';
 import { productReducer } from '../reducers/product.reducer';
+import { selectCartId } from '../cart.selectors';
+import { AppState } from '../app.state';
 
 @Injectable()
 export class CartEffects {
+  constructor(
+    private actions$: Actions,
+    private apiService: ApiService,
+    private cartService: CartService,
+    private store: Store<AppState>
+  ) {}
+
+  createCart$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.createCart),
+      mergeMap(({ userId }) =>
+        this.apiService.cart(userId).pipe(
+          map((cartId) => CartActions.createCartSuccess({ cartId })),
+          catchError((error) =>
+            of(CartActions.createCartFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  loadCart$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.loadCart),
+      withLatestFrom(this.store.select((state) => state.cart.cartId)),
+      mergeMap(() =>
+        this.apiService.cartItemAll().pipe(
+          map((cartItems) => CartActions.loadCartSuccess({ cartItems })),
+          catchError((error) =>
+            of(CartActions.loadCartFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
   addItemToCart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addToCart),
-      withLatestFrom(this.store.select((state) => state.cartReducer?.cartId)),
-      tap((action) => console.log('Action received:', action)),
+      withLatestFrom(this.store.select(selectCartId)),
+      tap(([action, cartId]) =>
+        console.log('Action received:', action, 'CartId:', cartId)
+      ),
       mergeMap(([action, cartId]) => {
         const myDataForBackend = new CartItem({
           productId: action.productId,
-          cartId: cartId ? Number(cartId) : null,
+          cartId: cartId,
           quantity: 1,
         });
 
         return this.apiService.cartItem(myDataForBackend).pipe(
-          tap((cartItem) => console.log('CartItem added:', cartItem)),
           map((cartItem) => CartActions.addToCartSuccess({ cartItem })),
           catchError((error) =>
             of(CartActions.loadCartFailure({ error: error.message }))
@@ -34,89 +73,4 @@ export class CartEffects {
       })
     )
   );
-
-  // addItemToCart$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(addToCart),
-  //     tap((action) => console.log('Action received:', action)),
-  //     mergeMap((action) => {
-  //       let cartId = this.cartService.getCartId();
-
-  //       if (!cartId) {
-  //         console.log('Keine CartId vorhanden, erstelle neuen Warenkorb...');
-  //         // TODO: userId dynamisch setzen
-  //         return this.cartService.createCart(56756).pipe(
-  //           tap((newCartId) => {
-  //             console.log('Neue CartId erhalten:', newCartId);
-  //           }),
-  //           switchMap((newCart) => {
-  //             const cartItem = new CartItem({
-  //               productId: action.productId,
-  //               quantity: action.quantity,
-  //               cartId: newCart.id,
-  //             });
-  //             console.log('Sende CartItem an API:', cartItem);
-  //             return this.apiService.cartItem(cartItem).pipe(
-  //               map(() =>
-  //                 CartActions.loadCardSuccess({ productId: action.productId })
-  //               ),
-  //               catchError((error) =>
-  //                 of(CartActions.loadCartFailure({ error: error.message }))
-  //               )
-  //             );
-  //           })
-  //         );
-  //       } else {
-  //         console.log('Verwende bestehende CartId:', cartId);
-  //         const cartItem = new CartItem({
-  //           productId: action.productId,
-  //           quantity: action.quantity,
-  //           cartId: cartId,
-  //         });
-  //         console.log('Sende CartItem an API:', cartItem);
-  //         return this.apiService.cartItem(cartItem).pipe(
-  //           map(() =>
-  //             CartActions.loadCardSuccess({ productId: action.productId })
-  //           ),
-  //           catchError((error) =>
-  //             of(CartActions.loadCartFailure({ error: error.message }))
-  //           )
-  //         );
-  //       }
-  //     })
-  //   )
-  // );
-
-  constructor(
-    private actions$: Actions,
-    private apiService: ApiService,
-    private cartService: CartService,
-    private store: Store<{ cartReducer: { cartId: string } }>
-  ) {}
-}
-
-type foo = {
-  bar: string;
-};
-
-type bar = {
-  baz: number;
-};
-
-type kek = bar & foo;
-
-type alllowedStrings = 'yes' | 'no';
-
-type partKek = Partial<kek>;
-
-const p: partKek = {
-  bar: 'string',
-};
-
-interface bim {}
-
-interface bim {
-  id: number;
-  boom: number;
-  foo: string;
 }

@@ -5,7 +5,9 @@ import { of } from 'rxjs';
 import { loadProducts } from './features/store/actions/product.actions';
 import { HeaderComponent } from './features/header/header.component';
 import { NavComponent } from './nav/nav.component';
-import { AppState } from './features/store';
+import { AppState } from './features/store/app.state';
+import { ApiService } from './Core/services/api.service';
+import { createCart } from './features/store/actions/cart.actions';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +18,16 @@ import { AppState } from './features/store';
 export class AppComponent implements OnInit {
   title = 'myShop';
   isAdminPage = false;
-  private productsLoaded = false; // Flag, um zu tracken, ob Produkte bereits geladen wurden
+  userId = 1;
   private store = inject(Store<AppState>);
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private apiService: ApiService) {
     this.router.events.subscribe(() => {
       this.isAdminPage = this.router.url.includes('/admin');
     });
   }
 
   ngOnInit(): void {
-    // Prüfe, ob wir bereits Produkte geladen haben
-    // if (!this.productsLoaded) {
-    //   this.store.dispatch(loadProducts());
-    //   this.productsLoaded = true;
-    // }
-    // (window as any).productsDebug = of();
+    this.store.dispatch(createCart({ userId: this.userId }));
   }
 }
