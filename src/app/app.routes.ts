@@ -8,11 +8,16 @@ import { AdminAddProductComponent } from './features/admin-add-product/admin-add
 import { AdminDeleteProductComponent } from './features/admin-delete-product/admin-delete-product.component';
 import { AdminEditProductComponent } from './features/admin-edit-product/admin-edit-product.component';
 import { CartComponent } from './features/cart/cart.component';
+import { RegisterComponent } from './features/register/register/register.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'product/:id',

@@ -36,6 +36,7 @@ export class ProductDetailComponent implements OnInit {
 
     this.product$ = this.store
       .select(selectProducts)
+      
       .pipe(
         map((products) =>
           products.find((product: any) => product.id === productId)
