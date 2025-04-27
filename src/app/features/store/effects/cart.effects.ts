@@ -17,7 +17,6 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private apiService: ApiService,
-    private cartService: CartService,
     private store: Store<AppState>
   ) {}
 
