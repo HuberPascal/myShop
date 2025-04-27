@@ -5,6 +5,7 @@ import { first } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -22,10 +23,33 @@ export class RegisterComponent {
     gender: new FormControl(''),
     firstName: new FormControl(''),
     lastName: new FormControl(''),
+  private _snackBar = inject(MatSnackBar);
+  private actions$ = inject(Actions);
+
+  ngOnInit() {
+    this.actions$
+      .pipe(ofType(AuthActions.registerUserSuccess))
+      .subscribe(() => {
+        this.openSnackBar('Registrierung erfolgreich!', 'OK');
+      });
+
+    this.actions$
+      .pipe(ofType(AuthActions.registerUserFailure))
+      .subscribe(({ error }) => {
+        this.openSnackBar(
+          'Registrierung fehlgeschlagen: ' +
+            (error?.message || 'Unbekannter Fehler'),
+          'OK'
+        );
+      });
+  }
   });
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
     console.warn(this.registerForm.value);
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 }
