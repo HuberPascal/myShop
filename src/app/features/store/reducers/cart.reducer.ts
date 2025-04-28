@@ -11,6 +11,7 @@ export interface CartState {
   loading: boolean;
   cartId: number | undefined; // Add cartId property
 }
+
 export const initialState: CartState = {
   items: [],
   error: null,

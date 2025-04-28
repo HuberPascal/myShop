@@ -1,9 +1,5 @@
-import { CartEffects } from './cart.effect';
-import { ProductEffects } from './products.effect';
-// Andere Effekte importieren...
+import { CartEffects } from './cart.effects';
+import { ProductEffects } from './products.effects';
+import { AuthEffects } from './auth.effects';
 
-export const effects = [
-  CartEffects,
-  ProductEffects,
-  // Andere Effekte hier hinzufügen
-];
+export const effects = [CartEffects, ProductEffects, AuthEffects];
