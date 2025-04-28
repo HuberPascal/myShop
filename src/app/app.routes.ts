@@ -9,6 +9,7 @@ import { AdminDeleteProductComponent } from './features/admin-delete-product/adm
 import { AdminEditProductComponent } from './features/admin-edit-product/admin-edit-product.component';
 import { CartComponent } from './features/cart/cart.component';
 import { RegisterComponent } from './features/register/register/register.component';
+import { LoginComponent } from './features/login/login.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'product/:id',
